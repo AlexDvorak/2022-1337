@@ -24,14 +24,14 @@ import frc.robot.RobotMap.Climber;
 
 public class ClimberSubsystem extends SubsystemBase {
 
-  CANSparkMax elevator;
-  TalonFX winch;
-  DoubleSolenoid solenoid1, solenoid2, solenoid3;
-  DigitalInput limitSwitch1, limitSwitch2, limitSwitch3;
-  DigitalInput elevatorTopSwitch, elevatorBottomSwitch;
+  private final CANSparkMax elevator;
+  private final TalonFX winch;
+  private final DoubleSolenoid solenoid1, solenoid2, solenoid3;
+  private final DigitalInput limitSwitch1, limitSwitch2, limitSwitch3;
+  private final DigitalInput elevatorTopSwitch, elevatorBottomSwitch;
 
-  boolean movingUp = false;
-  double speed = 0.2;
+  private boolean movingUp = false;
+  private double speed = 0.2;
 
   public ClimberSubsystem() {
     // -- Motors -- //
@@ -63,6 +63,11 @@ public class ClimberSubsystem extends SubsystemBase {
     movingUp = !movingUp;
   }
 
+  public void stopMotors() {
+    elevator.set(0);
+    winch.set(ControlMode.PercentOutput, 0);
+  }
+
   public void run(){
     double s = speed * (movingUp ? 1 : -1);
 
@@ -80,7 +85,7 @@ public class ClimberSubsystem extends SubsystemBase {
    * <li> reverse motor 1
    * <li> rotate winch
    */
-  // these should be in commands
+  // this should be in a command
   public void climbLevelOne(double elevatorSpeed){
     if (limitSwitch1.get()){
       elevator.set(0.0);
@@ -92,6 +97,7 @@ public class ClimberSubsystem extends SubsystemBase {
     }
   }
 
+  // this should be in a command
   public void climbLevelTwo(double speedofWinch){
     if (limitSwitch1.get()){
       winch.set(ControlMode.PercentOutput, 0.0);

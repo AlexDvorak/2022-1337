@@ -12,7 +12,7 @@ import frc.robot.RobotMap.Conveyor;
 
 public class ConveyorBeltSubsystem extends SubsystemBase {
 
-  CANSparkMax motor;
+  private final CANSparkMax motor;
 
   public ConveyorBeltSubsystem() {
     motor = new CANSparkMax(Conveyor.motorID, MotorType.kBrushless);

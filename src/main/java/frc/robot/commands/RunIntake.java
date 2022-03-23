@@ -18,11 +18,6 @@ public class RunIntake extends CommandBase {
   @Override
   public void initialize() {
     Robot.IntakeSubsystem.deploy();
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
     Robot.IntakeSubsystem.spin(0.5);
   }
 

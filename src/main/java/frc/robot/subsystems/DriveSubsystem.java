@@ -12,10 +12,10 @@ import frc.robot.RobotMap.Drive;
 
 public class DriveSubsystem extends SubsystemBase {
 
-    CANSparkMax L1motor, L2motor;
-    CANSparkMax R1motor, R2motor;
+  private final CANSparkMax L1motor, L2motor;
+  private final CANSparkMax R1motor, R2motor;
 
-    public DriveSubsystem() {
+  public DriveSubsystem() {
     L1motor = new CANSparkMax(Drive.Left1ID, MotorType.kBrushless);
     L2motor = new CANSparkMax(Drive.Left2ID, MotorType.kBrushless);
     R1motor = new CANSparkMax(Drive.Right1ID, MotorType.kBrushless);
