@@ -9,35 +9,28 @@ import frc.robot.Robot;
 
 
 public class IntakeCommand extends CommandBase {
-  /** Creates a new IntakeCommand. */
+
   public IntakeCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.IntakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Robot.IntakeSubsystem.intakeInitialize(true);
+    Robot.IntakeSubsystem.deploy();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.IntakeSubsystem.intakeSpin(0.5);
+    Robot.IntakeSubsystem.spin(0.5);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.IntakeSubsystem.intakeSpin(0.0);
-    Robot.IntakeSubsystem.intakeRetract(true);
-    
+    Robot.IntakeSubsystem.stopMotor();
+    Robot.IntakeSubsystem.retract();
   }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
 }

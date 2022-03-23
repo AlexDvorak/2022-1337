@@ -4,39 +4,39 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotMap;
 
-//import edu.wpi.first.wpilib.DoubleSolenoid;
-//import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap.Intake;
 
 public class IntakeSubsystem extends SubsystemBase {
-     // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-    public DoubleSolenoid intakeArm =  new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 3, 5);
-    
 
-    CANSparkMax intake = new CANSparkMax(RobotMap.IntakeM, MotorType.kBrushless);
+    private final DoubleSolenoid intakeArm;
+    private final CANSparkMax motor;
 
-    public void intakeInitialize(boolean deploy) {
+    public IntakeSubsystem() {
+        motor = new CANSparkMax(Intake.motorID, MotorType.kBrushless);
+        intakeArm = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 3, 5);
+        retract(); // start with intake up
+    }
+
+    public void deploy() {
         intakeArm.set(DoubleSolenoid.Value.kForward);;
     }
 
-
-    public void intakeSpin(double speed){
-        intake.set(speed);
-        
+    public void spin(double speed){
+        motor.set(speed);
     }
 
-    public void intakeRetract(boolean retract){
+    public void stopMotor() {
+        spin(0);
+    }
+
+    public void retract(){
         intakeArm.set(DoubleSolenoid.Value.kReverse);
     }
-
 
 }

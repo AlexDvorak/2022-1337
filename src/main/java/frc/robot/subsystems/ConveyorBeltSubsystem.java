@@ -5,18 +5,19 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotMap;
+import frc.robot.RobotMap.Conveyor;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 public class ConveyorBeltSubsystem extends SubsystemBase {
+
   CANSparkMax motor;
   RelativeEncoder encoder;
-  /** Creates a new ConveyorBeltSubsystem. */
+
   public ConveyorBeltSubsystem() {
-    motor = new CANSparkMax(RobotMap.ConveyorM, MotorType.kBrushless);
+    motor = new CANSparkMax(Conveyor.motorID, MotorType.kBrushless);
     encoder = motor.getEncoder();
   }
 
@@ -25,8 +26,4 @@ public class ConveyorBeltSubsystem extends SubsystemBase {
     motor.set(speed);
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
 }
