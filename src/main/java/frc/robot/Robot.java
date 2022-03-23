@@ -7,25 +7,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.EmergencyClimberStop;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.ConveyorBeltSubsystem;
-import frc.robot.commands.ClimberCommandMove;
-import frc.robot.commands.ConveyorBeltCommandForward;
-import frc.robot.commands.ConveyorBeltCommandStop;
-
-
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -34,30 +20,15 @@ import frc.robot.commands.ConveyorBeltCommandStop;
  * project.
  */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
-  // private final Timer m_timer = new Timer();
-  public static DriveSubsystem DriveSubsystem = new DriveSubsystem();
-  public static OI OI = new OI();
-  public static DriveCommand DriveCommand = new DriveCommand();
-  CommandScheduler commandScheduler = CommandScheduler.getInstance();
+  private final SendableChooser<Command> autonChooser = new SendableChooser<>();
+  private Command selectedAuto;
 
-  public static ConveyorBeltSubsystem ConveyorBeltSubsystem = new ConveyorBeltSubsystem();
-  public static ConveyorBeltCommandForward ConveyorBeltCommandForward = new ConveyorBeltCommandForward();
-  public static ConveyorBeltCommandStop ConveyorBeltCommandStop = new ConveyorBeltCommandStop();
+  public static final OI OI = new OI();
 
-  public static IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
-  public static IntakeCommand IntakeCommand = new IntakeCommand();
-
-  public static ClimberSubsystem climber = new ClimberSubsystem();
-  public static ClimberCommandMove ClimberCommand = new ClimberCommandMove(climber);
-  public static EmergencyClimberStop EmergencyClimberStop = new EmergencyClimberStop();
-  // public static ElevatorSubsystem ElevatorSubsystem = new ElevatorSubsystem();
-  // public static ElevatorCommandExtend ElevatorCommand = new ElevatorCommandExtend();
-
-
+  public static final DriveSubsystem DriveSubsystem = new DriveSubsystem();
+  public static final ConveyorBeltSubsystem ConveyorBeltSubsystem = new ConveyorBeltSubsystem();
+  public static final IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
+  public static final ClimberSubsystem ClimberSubsystem = new ClimberSubsystem();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -65,9 +36,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    autonChooser.setDefaultOption("Do Nothing", new InstantCommand());
+    // m_chooser.addOption("My Auto", new MyAutonomousCommand());
+    SmartDashboard.putData("Auto choices", autonChooser);
   }
 
   /**
@@ -79,9 +50,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-
     CommandScheduler.getInstance().run();
-
   }
 
   /**
@@ -96,52 +65,29 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
-    
-  }
+    selectedAuto = autonChooser.getSelected();
 
-  /** This function is called periodically during autonomous. */
-  @Override
-  public void autonomousPeriodic() {
-    //AutoCommand.start();
-    commandScheduler.run();
-
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
+    if (selectedAuto != null) {
+      System.out.println("Auto selected: " + selectedAuto.getName());
+      selectedAuto.schedule();
+    } else {
+      System.out.println("Auto selected: No auto was selected");
     }
   }
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
-
-  /** This function is called periodically during operator control. */
-  @Override
-  public void teleopPeriodic() {
-    commandScheduler.run();
+  public void teleopInit() {
+    // Set 'DriveCommand' to run whenever no other command requires the DriveSubsystem
+    DriveSubsystem.setDefaultCommand(new DriveCommand());
   }
 
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {}
 
-  /** This function is called periodically when disabled. */
-  @Override
-  public void disabledPeriodic() {}
-
   /** This function is called once when test mode is enabled. */
   @Override
   public void testInit() {}
 
-  /** This function is called periodically during test mode. */
-  @Override
-  public void testPeriodic() {}
 }
