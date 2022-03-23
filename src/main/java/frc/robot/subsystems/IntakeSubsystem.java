@@ -14,29 +14,29 @@ import frc.robot.RobotMap.Intake;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-    private final DoubleSolenoid intakeArm;
-    private final CANSparkMax motor;
+  private final DoubleSolenoid intakeArm;
+  private final CANSparkMax motor;
 
-    public IntakeSubsystem() {
-        motor = new CANSparkMax(Intake.motorID, MotorType.kBrushless);
-        intakeArm = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 3, 5);
-        retract(); // start with intake up
-    }
+  public IntakeSubsystem() {
+    motor = new CANSparkMax(Intake.motorID, MotorType.kBrushless);
+    intakeArm = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 3, 5);
+    retract(); // start with intake up
+  }
 
-    public void deploy() {
-        intakeArm.set(DoubleSolenoid.Value.kForward);
-    }
+  public void deploy() {
+    intakeArm.set(DoubleSolenoid.Value.kForward);
+  }
 
-    public void retract(){
-        intakeArm.set(DoubleSolenoid.Value.kReverse);
-    }
+  public void retract(){
+    intakeArm.set(DoubleSolenoid.Value.kReverse);
+  }
 
-    public void spin(double speed){
-        motor.set(speed);
-    }
+  public void spin(double speed){
+    motor.set(speed);
+  }
 
-    public void stopMotor() {
-        spin(0);
-    }
+  public void stopMotor() {
+    spin(0);
+  }
 
 }

@@ -13,20 +13,20 @@ import frc.robot.commands.climbing.*;
 
 public class OI {
 
-    public static final XboxController driver = new XboxController(0);
-    public static final XboxController operator = new XboxController(1);
+  public static final XboxController driver = new XboxController(0);
+  public static final XboxController operator = new XboxController(1);
 
-    // Driver Buttons
-    public static final JoystickButton driverBButton = new JoystickButton(driver, XboxController.Button.kB.value);
-    public static final JoystickButton driverAButton = new JoystickButton(driver, XboxController.Button.kA.value);
-    public static final JoystickButton driverYButton = new JoystickButton(driver, XboxController.Button.kY.value);
-    public static final JoystickButton driverXButton = new JoystickButton(driver, XboxController.Button.kX.value);
+  // Driver Buttons
+  public static final JoystickButton driverBButton = new JoystickButton(driver, XboxController.Button.kB.value);
+  public static final JoystickButton driverAButton = new JoystickButton(driver, XboxController.Button.kA.value);
+  public static final JoystickButton driverYButton = new JoystickButton(driver, XboxController.Button.kY.value);
+  public static final JoystickButton driverXButton = new JoystickButton(driver, XboxController.Button.kX.value);
 
-    // Operator Buttons
-    public static final JoystickButton operatorBButton = new JoystickButton(operator, XboxController.Button.kB.value);
-    public static final JoystickButton operatorAButton = new JoystickButton(operator, XboxController.Button.kA.value);
-    public static final JoystickButton operatorYButton = new JoystickButton(operator, XboxController.Button.kY.value);
-    public static final JoystickButton operatorXButton = new JoystickButton(operator, XboxController.Button.kX.value);
+  // Operator Buttons
+  public static final JoystickButton operatorBButton = new JoystickButton(operator, XboxController.Button.kB.value);
+  public static final JoystickButton operatorAButton = new JoystickButton(operator, XboxController.Button.kA.value);
+  public static final JoystickButton operatorYButton = new JoystickButton(operator, XboxController.Button.kY.value);
+  public static final JoystickButton operatorXButton = new JoystickButton(operator, XboxController.Button.kX.value);
 
   public static void mapButtons() {
     // Driver Controls
@@ -44,17 +44,17 @@ public class OI {
     double brake = driver.getRightTriggerAxis();
 
     if (Math.abs(accelerate - brake) > 0.15)
-      return accelerate - brake;
+    return accelerate - brake;
     else
-      return 0.0;
+    return 0.0;
   }
 
   public static double getDrivingTurn() {
     double turn = driver.getLeftX();
     if (turn > 0.15)
-      return turn;
+    return turn;
     else
-      return 0.0;
+    return 0.0;
   }
 
 }
