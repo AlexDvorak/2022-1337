@@ -24,7 +24,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void deploy() {
-        intakeArm.set(DoubleSolenoid.Value.kForward);;
+        intakeArm.set(DoubleSolenoid.Value.kForward);
+    }
+
+    public void retract(){
+        intakeArm.set(DoubleSolenoid.Value.kReverse);
     }
 
     public void spin(double speed){
@@ -33,10 +37,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void stopMotor() {
         spin(0);
-    }
-
-    public void retract(){
-        intakeArm.set(DoubleSolenoid.Value.kReverse);
     }
 
 }

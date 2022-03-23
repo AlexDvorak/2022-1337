@@ -46,12 +46,13 @@ public class OI {
 
   public void mapButtons() {
     // Driver Controls
-    driverBButton.whenHeld(new ConveyorBeltCommandForward());
-    driverXButton.whenHeld(new ConveyorBeltCommandStop());
-    //driverAButton.whenHeld(new IntakeCommand());
+    // driverYButton.whenHeld(new RunConveyorBelt(1.0));
+    driverBButton.whenHeld(new StartConveyorBelt(1.0));
+    driverXButton.whenHeld(new StopConveyorBelt());
+    //driverAButton.whenHeld(new RunIntake());
 
     // Operator Controls
-    operatorAButton.whenPressed(new ClimberCommandMove(Robot.ClimberSubsystem));
+    operatorAButton.whenPressed(new ChangeClimberDirection());
   }
 
   // method that takes speed to go forwards or backwards from bumpers of controller depending on how hard driver presses

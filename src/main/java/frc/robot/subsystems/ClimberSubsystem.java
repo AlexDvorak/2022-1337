@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -25,57 +26,69 @@ public class ClimberSubsystem extends SubsystemBase {
 
   CANSparkMax elevator;
   TalonFX winch;
-  DoubleSolenoid solenoid1;
-  DoubleSolenoid solenoid2;
-  DoubleSolenoid solenoid3;
-  DigitalInput limitSwitch1;
-  DigitalInput limitSwitch2;
-  DigitalInput limitSwitch3;
-  DigitalInput elevatorTopSwitch;
-  DigitalInput elevatorBottomSwitch;
+  DoubleSolenoid solenoid1, solenoid2, solenoid3;
+  DigitalInput limitSwitch1, limitSwitch2, limitSwitch3;
+  DigitalInput elevatorTopSwitch, elevatorBottomSwitch;
 
-  int direction = -1;
+  boolean movingUp = false;
   double speed = 0.2;
 
   public ClimberSubsystem() {
-    // elevator = new CANSparkMax(RobotMap.ConveyorM, MotorType.kBrushless);
+    // -- Motors -- //
     winch = new TalonFX(Climber.leftWinchMotorID);
+    elevator = new CANSparkMax(Climber.leftWinchMotorID, MotorType.kBrushless);
+
+    // -- Solenoids -- //
     solenoid1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
     solenoid2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
     solenoid3 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5);
+
+    // -- Limit Switches -- //
     elevatorTopSwitch = new DigitalInput(1);
     elevatorBottomSwitch = new DigitalInput(2);
-
-    // limitSwitch1 = new DigitalInput(4);
-    // limitSwitch2 = new DigitalInput(5);
-    // limitSwitch3 = new DigitalInput(6);
+    limitSwitch1 = new DigitalInput(4);
+    limitSwitch2 = new DigitalInput(5);
+    limitSwitch3 = new DigitalInput(6);
   }
 
-  //activated once when pressed
+  public boolean atUpperLimit() {
+    return elevatorTopSwitch.get();
+  }
+
+  public boolean atLowerLimit() {
+    return elevatorBottomSwitch.get();
+  }
+
   public void changeDirection(){
-    direction = direction < 0 ? 1 : -1;
+    movingUp = !movingUp;
   }
 
-  //continuously run when pressed
   public void run(){
-    double s = speed;
-    if (elevatorTopSwitch.get()){
-      s = Math.min(speed * direction, 0);
-    } else if (elevatorBottomSwitch.get()) {
-      s = Math.max(speed * direction, 0);
-    }
+    double s = speed * (movingUp ? 1 : -1);
+
+    if (atUpperLimit() && movingUp) s = 0; // at top, don't allow moving up
+    if (atLowerLimit() && !movingUp) s = 0; // at bottom don't allow moving down
+
     elevator.set(s);
   }
 
-
-  public void climbLevelOne(double speedofElevator){
+  /**
+   * Climbing Process
+   * <ul>
+   * <li> extend motor 1 until limit switch is pressed
+   * <li> set soleniod to move forward
+   * <li> reverse motor 1
+   * <li> rotate winch
+   */
+  // these should be in commands
+  public void climbLevelOne(double elevatorSpeed){
     if (limitSwitch1.get()){
       elevator.set(0.0);
       solenoid1.set(Value.kForward);
-      elevator.set(-speedofElevator);
+      elevator.set(-elevatorSpeed);
       //need a stopping point
     } else {
-      elevator.set(speedofElevator);
+      elevator.set(elevatorSpeed);
     }
   }
 
@@ -86,27 +99,7 @@ public class ClimberSubsystem extends SubsystemBase {
       //This is where we need the driver to confirm the release
     } else {
       winch.set(ControlMode.PercentOutput, speedofWinch);
-    }}
-
-  // //extend motor 1 until limit switch is pressed
-  // //set soleniod to move forward
-  // //reverse motor 1
-  // //rotate winch
-
-  // public void sol1clamp() {
-  //   sol1.set(Value.kReverse);
-  // }
-  // public void sol1Off() {
-  //   sol1.set(Value.kOff);
-  // }
-  // public void sol1Release() {
-  //   sol1.set(Value.kForward);
-  // }
-  // //same method for rest of solenoids
-
-  // //return true if the sensor is triggered
-  // public boolean sensor1Status() {
-  //   return sensor1.get();
-  // }
+    }
+  }
 
 }
