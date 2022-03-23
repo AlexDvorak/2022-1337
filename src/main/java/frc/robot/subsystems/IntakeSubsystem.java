@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 
 //import edu.wpi.first.wpilib.DoubleSolenoid;
 //import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -21,7 +22,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public DoubleSolenoid intakeArm =  new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 3, 5);
     
 
-    CANSparkMax intake = new CANSparkMax(8, MotorType.kBrushless);
+    CANSparkMax intake = new CANSparkMax(RobotMap.IntakeM, MotorType.kBrushless);
 
     public void intakeInitialize(boolean deploy) {
         intakeArm.set(DoubleSolenoid.Value.kForward);;
