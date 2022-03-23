@@ -55,8 +55,7 @@ public class OI {
     operatorAButton.whenPressed(new ChangeClimberDirection());
   }
 
-  // method that takes speed to go forwards or backwards from bumpers of controller depending on how hard driver presses
-  public double getSpeed() {
+  public double getDrivingSpeed() {
     double accelerate = driver.getLeftTriggerAxis();
     double brake = driver.getRightTriggerAxis();
     if (Math.abs(accelerate - brake) > 0.15){
@@ -65,11 +64,10 @@ public class OI {
       return 0.0;
   }
 
-  // method that allows for joystick control to determine turns to left/right
-  public double getTurn() {
-    double rotate = driver.getLeftX();
-    if (rotate > 0.15) {
-      return rotate;}
+  public double getDrivingTurn() {
+    double turn = driver.getLeftX();
+    if (turn > 0.15) {
+      return turn;}
     else
       return 0.0;
   }
