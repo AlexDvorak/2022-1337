@@ -23,8 +23,6 @@ public class Robot extends TimedRobot {
   private final SendableChooser<Command> autonChooser = new SendableChooser<>();
   private Command selectedAuto;
 
-  public static final OI OI = new OI();
-
   public static final DriveSubsystem DriveSubsystem = new DriveSubsystem();
   public static final ConveyorBeltSubsystem ConveyorBeltSubsystem = new ConveyorBeltSubsystem();
   public static final IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
