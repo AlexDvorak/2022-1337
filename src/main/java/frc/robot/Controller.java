@@ -3,16 +3,19 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 public class Controller {
 
-  public final XboxController controller;
-
   private final double kTriggerDeadzone;
+
+  public final XboxController controller;
 
   public final JoystickButton ButtonA, ButtonB, ButtonX, ButtonY;
   public final JoystickButton BumperLeft, BumperRight;
   public final JoystickButton ButtonStart, ButtonBack;
+
+  public final POVButton DPadUp, DPadDown, DPadLeft, DPadRight;
 
   /** Allows for using the triggers as buttons, for example <pre>m_Controller.LeftTrigger.whenHeld(new CommandToRun()) */
   public final Button LeftTrigger, RightTrigger;
@@ -36,6 +39,11 @@ public class Controller {
 
     ButtonStart = new JoystickButton(controller, XboxController.Button.kStart.value);
     ButtonBack = new JoystickButton(controller, XboxController.Button.kBack.value);
+
+    DPadUp = new POVButton(controller, 0);
+    DPadRight = new POVButton(controller, 90);
+    DPadDown = new POVButton(controller, 180);
+    DPadLeft = new POVButton(controller, 270);
 
     LeftTrigger = new Button(() -> getLeftTrigger() > kTriggerDeadzone);
     RightTrigger = new Button(() -> getRightTrigger() > kTriggerDeadzone);
@@ -64,6 +72,6 @@ public class Controller {
   public double getRightTrigger() { return controller.getRightTriggerAxis(); }
 
   /** How much the left trigger on the controller is pressed from 0.0 to 1.0 */
-  public double getLeftTrigger()  { return controller.getLeftTriggerAxis(); }
+  public double getLeftTrigger() { return controller.getLeftTriggerAxis(); }
 
 }

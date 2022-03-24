@@ -31,7 +31,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private final DigitalInput elevatorTopSwitch, elevatorBottomSwitch;
 
   private boolean movingUp = false;
-  private double speed = 0.2;
+  private double elevatorSpeed = 0.2;
 
   public ClimberSubsystem() {
     // -- Motors -- //
@@ -68,10 +68,10 @@ public class ClimberSubsystem extends SubsystemBase {
     winch.set(ControlMode.PercentOutput, 0);
   }
 
-  public void run(){
-    double s = speed * (movingUp ? 1 : -1);
+  public void runElevator(){
+    double s = elevatorSpeed * (movingUp ? 1 : -1);
 
-    if (atUpperLimit() && movingUp) s = 0; // at top, don't allow moving up
+    if (atUpperLimit() &&  movingUp) s = 0; // at top, don't allow moving up
     if (atLowerLimit() && !movingUp) s = 0; // at bottom don't allow moving down
 
     elevator.set(s);
@@ -98,13 +98,13 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   // this should be in a command
-  public void climbLevelTwo(double speedofWinch){
+  public void climbLevelTwo(double winchSpeed){
     if (limitSwitch1.get()){
       winch.set(ControlMode.PercentOutput, 0.0);
       solenoid2.set(Value.kForward);
       //This is where we need the driver to confirm the release
     } else {
-      winch.set(ControlMode.PercentOutput, speedofWinch);
+      winch.set(ControlMode.PercentOutput, winchSpeed);
     }
   }
 
