@@ -26,19 +26,17 @@ public class OI {
   public static double getDrivingSpeed() {
     double accelerate = driver.getLeftTrigger();
     double brake = driver.getRightTrigger();
-
-    if (Math.abs(accelerate - brake) > 0.15)
-    return accelerate - brake;
-    else
-    return 0.0;
+    return threshold(accelerate - brake, 0.15);
   }
 
   public static double getDrivingTurn() {
     double turn = driver.getLeftStickX();
-    if (turn > 0.15)
-    return turn;
-    else
-    return 0.0;
+    return threshold(turn, 0.15);
+  }
+
+  /** Returns 0 if the absolute value of the input is less than the threshold, otherwise returns the input */
+  private static double threshold(double input, double thresh) {
+    return Math.abs(input) > thresh ? input : 0;
   }
 
 }
