@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 import frc.robot.subsystems.*;
+import frc.robot.commands.autonomous.*;
 import frc.robot.commands.main.DriveCommand;
 
 /**
@@ -21,13 +22,14 @@ import frc.robot.commands.main.DriveCommand;
  * project.
  */
 public class Robot extends TimedRobot {
-  private final SendableChooser<Command> autonChooser = new SendableChooser<>();
-  private Command selectedAuto;
 
   public static final DriveSubsystem DriveSubsystem = new DriveSubsystem();
-  public static final ConveyorBeltSubsystem ConveyorBeltSubsystem = new ConveyorBeltSubsystem();
   public static final IntakeSubsystem IntakeSubsystem = new IntakeSubsystem();
+  public static final ConveyorBeltSubsystem ConveyorBeltSubsystem = new ConveyorBeltSubsystem();
   public static final ClimberSubsystem ClimberSubsystem = new ClimberSubsystem();
+
+  private final SendableChooser<Command> autonChooser = new SendableChooser<>();
+  private Command selectedAuto;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -36,7 +38,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     autonChooser.setDefaultOption("Do Nothing", new InstantCommand());
-    // autonChooser.addOption("My Auto", new MyAutonomousCommand());
+    autonChooser.addOption("Taxi Backwards", new DriveStraight(0.3).withTimeout(2));
+
     SmartDashboard.putData("Auto choices", autonChooser);
   }
 
@@ -49,6 +52,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    // This is required for the robot to work at all
     CommandScheduler.getInstance().run();
   }
 
