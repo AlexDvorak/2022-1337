@@ -14,14 +14,12 @@ public class RunIntake extends CommandBase {
     addRequirements(Robot.IntakeSubsystem);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Robot.IntakeSubsystem.deploy();
     Robot.IntakeSubsystem.spin(0.5);
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     Robot.IntakeSubsystem.stopMotor();

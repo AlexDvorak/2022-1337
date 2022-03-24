@@ -24,7 +24,7 @@ public class ConveyorBeltSubsystem extends SubsystemBase {
   }
 
   public void stop() {
-    run(0);
+    motor.set(0);
   }
 
 }

@@ -17,7 +17,7 @@ public class Controller {
 
   public final POVButton DPadUp, DPadDown, DPadLeft, DPadRight;
 
-  /** Allows for using the triggers as buttons, for example <pre>m_Controller.LeftTrigger.whenHeld(new CommandToRun()) */
+  /** Allows using the triggers as buttons, for example <pre>m_Controller.LeftTrigger.whenHeld(new CommandToRun()) */
   public final Button LeftTrigger, RightTrigger;
 
   /**

@@ -14,19 +14,16 @@ public class DriveCommand extends CommandBase {
     addRequirements(Robot.DriveSubsystem);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     Robot.DriveSubsystem.ArcadeDrive(OI.getDrivingSpeed(), OI.getDrivingTurn());
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     Robot.DriveSubsystem.ArcadeDrive(0, 0); // stop
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
