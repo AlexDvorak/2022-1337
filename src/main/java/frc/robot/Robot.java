@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     autonChooser.setDefaultOption("Do Nothing", new InstantCommand());
-    autonChooser.addOption("Taxi Backwards", new DriveStraight(0.3).withTimeout(2));
+    autonChooser.addOption("Taxi Off Tarmac", new DriveStraight(0.3).withTimeout(2));
 
     SmartDashboard.putData("Auto choices", autonChooser);
   }

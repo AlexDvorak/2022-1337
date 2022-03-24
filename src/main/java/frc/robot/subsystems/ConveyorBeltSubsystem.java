@@ -18,7 +18,7 @@ public class ConveyorBeltSubsystem extends SubsystemBase {
     motor = new CANSparkMax(Conveyor.motorID, MotorType.kBrushless);
   }
 
-  //input: desired speed for conveyor belt going forward
+  /** @param speed desired speed for conveyor belt going forward */
   public void run(double speed) {
     motor.set(speed);
   }
